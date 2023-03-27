@@ -17,12 +17,12 @@ APP VERSION: 10.0.2** Please be patient while the chart is being deployed **
 1. Get the Drupal URL:
 
   NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-        Watch the status with: 'kubectl get svc --namespace demo-drupal -w my-release-drupal'
+        Watch the status with: 'kubectl get svc -w my-release-drupal'
 
-  export SERVICE_IP=$(kubectl get svc --namespace demo-drupal my-release-drupal --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+  export SERVICE_IP=$(kubectl get svc my-release-drupal --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
   echo "Drupal URL: http://$SERVICE_IP/"
 
 2. Get your Drupal login credentials by running:
 
   echo Username: user
-  echo Password: $(kubectl get secret --namespace demo-drupal my-release-drupal -o jsonpath="{.data.drupal-password}" | base64 -d)
+  echo Password: $(kubectl get secret my-release-drupal -o jsonpath="{.data.drupal-password}" | base64 -d)
