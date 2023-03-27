@@ -1,0 +1,28 @@
+helm install my-release bitnami/drupal --dry-run --set podSecurityContext.enabled=false --set containerSecurityContext.enabled=false
+
+NAME: my-release
+LAST DEPLOYED: Mon Mar 27 09:18:02 2023
+NAMESPACE: demo-drupal
+STATUS: pending-install
+REVISION: 1
+TEST SUITE: None
+HOOKS:
+MANIFEST:
+
+NOTES:
+CHART NAME: drupal
+CHART VERSION: 13.0.1
+APP VERSION: 10.0.2** Please be patient while the chart is being deployed **
+
+1. Get the Drupal URL:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace demo-drupal -w my-release-drupal'
+
+  export SERVICE_IP=$(kubectl get svc --namespace demo-drupal my-release-drupal --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
+  echo "Drupal URL: http://$SERVICE_IP/"
+
+2. Get your Drupal login credentials by running:
+
+  echo Username: user
+  echo Password: $(kubectl get secret --namespace demo-drupal my-release-drupal -o jsonpath="{.data.drupal-password}" | base64 -d)
